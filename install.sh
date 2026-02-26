@@ -22,7 +22,8 @@ git config --global user.email "$GIT_EMAIL"
 echo "Installing yay..."
 if ! command -v yay &> /dev/null; then
     YAY_TMP=$(mktemp -d)
-    git clone https://aur.archlinux.org/yay.git "$YAY_TMP"
+    chown "$TARGET_USER:$TARGET_USER" "$YAY_TMP"
+    sudo -u "$TARGET_USER" git clone https://aur.archlinux.org/yay.git "$YAY_TMP"
     cd "$YAY_TMP"
     sudo -u "$TARGET_USER" makepkg -si --noconfirm
     cd -

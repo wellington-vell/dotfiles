@@ -5,7 +5,7 @@ My dotfiles for Arch Linux + Hyprland
 ## Installation
 
 ```bash
-curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar.gz | tar xz && cd dotfiles-main && ./install.sh
+curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar.gz | tar xz && cd dotfiles-main && sudo ./install.sh
 ```
 
 Run with `sudo` if you want to install for a different user.
