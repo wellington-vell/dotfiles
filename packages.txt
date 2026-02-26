@@ -1,0 +1,7 @@
+hyprland
+git
+less
+neovim
+base-devel
+opencode
+ghostty
