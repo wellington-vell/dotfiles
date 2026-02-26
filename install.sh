@@ -70,22 +70,36 @@ read -p "Enter your git user email: " GIT_EMAIL
 git config --global user.name "$GIT_NAME" || true
 git config --global user.email "$GIT_EMAIL" || true
 
-# Install yay from source (required for AUR packages)
-# Continue even if this fails - config is already linked
+# Install yay from AUR (required for AUR packages)
+# Uses yay-bin (precompiled) for speed, falls back to yay (source) if needed
 echo "Installing yay..."
 if ! command -v yay &> /dev/null; then
     YAY_TMP=$(mktemp -d)
-    if git clone https://aur.archlinux.org/yay.git "$YAY_TMP" 2>/dev/null; then
-        if (cd "$YAY_TMP" && makepkg -si --noconfirm 2>/dev/null); then
-            echo "yay installed successfully"
+    trap "rm -rf '$YAY_TMP'" EXIT
+    
+    # Try yay-bin first (precompiled - faster)
+    if git clone --depth 1 https://aur.archlinux.org/yay-bin.git "$YAY_TMP" 2>&1; then
+        if (cd "$YAY_TMP" && makepkg --noconfirm -si); then
+            echo "yay-bin installed successfully"
         else
-            echo "Warning: Failed to install yay. AUR packages cannot be installed." >&2
-            echo "You can install yay manually later with: git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si" >&2
+            echo "Warning: Failed to install yay-bin, trying yay (from source)..." >&2
+            rm -rf "$YAY_TMP"
+            YAY_TMP=$(mktemp -d)
+            
+            # Fallback to yay (compiles from source)
+            if git clone --depth 1 https://aur.archlinux.org/yay.git "$YAY_TMP" 2>&1; then
+                if (cd "$YAY_TMP" && makepkg --noconfirm -si); then
+                    echo "yay installed successfully"
+                else
+                    echo "Warning: Failed to install yay. AUR packages cannot be installed." >&2
+                fi
+            else
+                echo "Warning: Failed to clone yay repository" >&2
+            fi
         fi
     else
         echo "Warning: Failed to clone yay repository" >&2
     fi
-    rm -rf "$YAY_TMP"
 else
     echo "yay already installed"
 fi
