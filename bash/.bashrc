@@ -7,7 +7,12 @@
 
 # Auto-start Hyprland on TTY1
 if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    exec start-hyprland
+    if command -v start-hyprland &> /dev/null; then
+        exec start-hyprland
+    else
+        echo "Error: start-hyprland not found" >&2
+        echo "Please install Hyprland or add it to your PATH" >&2
+    fi
 fi
 
 alias ls='ls --color=auto'
