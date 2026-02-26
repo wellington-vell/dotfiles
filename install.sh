@@ -24,7 +24,7 @@ if ! command -v yay &> /dev/null; then
     YAY_TMP=$(mktemp -d)
     git clone https://aur.archlinux.org/yay.git "$YAY_TMP"
     cd "$YAY_TMP"
-    makepkg -si --noconfirm
+    sudo -u "$TARGET_USER" makepkg -si --noconfirm
     cd -
     rm -rf "$YAY_TMP"
 fi

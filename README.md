@@ -16,7 +16,7 @@ Run with `sudo` if you want to install for a different user.
 - **neovim** - Editor
 - **git** - Version control
 - **less** - Pager
-- **ghostty** - Terminal (AUR)
+- **ghostty** - Terminal
 - **opencode** - AI coding assistant
 - **yay** - AUR helper
 - **zen-browser-bin** - Web Browser

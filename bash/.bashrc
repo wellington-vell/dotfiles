@@ -15,4 +15,4 @@ alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
 # opencode
-export PATH=/home/well/.opencode/bin:$PATH
+export PATH=$HOME/.opencode/bin:$PATH
