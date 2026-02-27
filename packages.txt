@@ -9,3 +9,6 @@ man
 tldr
 ttf-jetbrains-mono-nerd
 starship
+eza
+bash-completion
+fzf

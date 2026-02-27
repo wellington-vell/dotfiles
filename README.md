@@ -36,10 +36,14 @@ GIT_NAME="Your Name" GIT_EMAIL="you@example.com" ./install.sh
 - **tldr** - Simplified man pages
 - **starship** - Shell prompt
 - **ttf-jetbrains-mono-nerd** - Font
+- **eza** - Modern ls replacement
+- **bash-completion** -
+- **fzf** -
 
 ### AUR Packages (via yay)
 
 - **zen-browser-bin** - Web Browser
+- **ble.sh** -
 
 ## Structure
 

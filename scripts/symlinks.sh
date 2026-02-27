@@ -8,9 +8,11 @@ create_symlinks() {
   mkdir -p "$user_home/.config/hypr"
   mkdir -p "$user_home/.config/opencode"
   mkdir -p "$user_home/.config/ghostty"
+  mkdir -p "$user_home/.config/bash"
 
   ln -sf "$script_dir/.config/starship.toml" "$user_home/.config/starship.toml"
   ln -sf "$script_dir/.config/.bashrc" "$user_home/.bashrc"
+  ln -sf "$script_dir/.config/bash" "$user_home/.config/bash"
   ln -sf "$script_dir/.config/hypr/hyprland.conf" "$user_home/.config/hypr/hyprland.conf"
   ln -sf "$script_dir/.config/opencode/opencode.jsonc" "$user_home/.config/opencode/opencode.jsonc"
   ln -sf "$script_dir/.config/ghostty/config" "$user_home/.config/ghostty/config"
