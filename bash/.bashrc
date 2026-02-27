@@ -21,3 +21,7 @@ PS1='[\u@\h \W]\$ '
 
 # opencode
 export PATH=$HOME/.opencode/bin:$PATH
+
+# starship
+# Must be last to avoid conflits with others packages
+eval "$(starship init bash)"

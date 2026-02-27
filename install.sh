@@ -49,9 +49,13 @@ echo "Installing dotfiles for user: $TARGET_USER"
 echo "Linking configs..."
 mkdir -p "$USER_HOME/.config/hypr"
 mkdir -p "$USER_HOME/.config/opencode"
+mkdir -p "$USER_HOME/.config/ghostty"
+
+ln -sf "$SCRIPT_DIR/starship/starship.toml" "$USER_HOME/.starship.toml"
 ln -sf "$SCRIPT_DIR/bash/.bashrc" "$USER_HOME/.bashrc"
 ln -sf "$SCRIPT_DIR/hypr/hyprland.conf" "$USER_HOME/.config/hypr/hyprland.conf"
 ln -sf "$SCRIPT_DIR/opencode/opencode.jsonc" "$USER_HOME/.config/opencode/opencode.jsonc"
+ln -sf "$SCRIPT_DIR/ghostty/config" "$USER_HOME/.config/ghostty/config"
 
 # Install pacman packages (requires sudo for system packages)
 echo "Installing pacman packages..."

@@ -5,3 +5,7 @@ neovim
 base-devel
 opencode
 ghostty
+man
+tldr
+ttf-jetbrains-mono-nerd
+starship
