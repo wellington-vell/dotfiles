@@ -55,4 +55,6 @@ install_packages "$SCRIPT_DIR" "$SUDO_AVAILABLE"
 echo "Configuring git..."
 configure_git
 
+source "$USER_HOME/.bashrc"
+
 echo "Done!"
