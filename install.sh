@@ -5,10 +5,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_USER="${SUDO_USER:-$(whoami)}"
 USER_HOME="$(eval echo ~"$TARGET_USER")"
 
-# Check if running as root - makepkg cannot run as root
+# Check if running as root
 if [ "$(id -u)" -eq 0 ]; then
     echo "Error: Running as root is not allowed."
-    echo "This script uses makepkg which cannot be run as root."
     echo "Please run as a non-root user."
     exit 1
 fi
@@ -51,11 +50,11 @@ mkdir -p "$USER_HOME/.config/hypr"
 mkdir -p "$USER_HOME/.config/opencode"
 mkdir -p "$USER_HOME/.config/ghostty"
 
-ln -sf "$SCRIPT_DIR/starship/starship.toml" "$USER_HOME/.starship.toml"
-ln -sf "$SCRIPT_DIR/bash/.bashrc" "$USER_HOME/.bashrc"
-ln -sf "$SCRIPT_DIR/hypr/hyprland.conf" "$USER_HOME/.config/hypr/hyprland.conf"
-ln -sf "$SCRIPT_DIR/opencode/opencode.jsonc" "$USER_HOME/.config/opencode/opencode.jsonc"
-ln -sf "$SCRIPT_DIR/ghostty/config" "$USER_HOME/.config/ghostty/config"
+ln -sf "$SCRIPT_DIR/.config/starship.toml" "$USER_HOME/.config/starship.toml"
+ln -sf "$SCRIPT_DIR/.config/.bashrc" "$USER_HOME/.config/.bashrc"
+ln -sf "$SCRIPT_DIR/.config/hypr/hyprland.conf" "$USER_HOME/.config/hypr/hyprland.conf"
+ln -sf "$SCRIPT_DIR/.config/opencode/opencode.jsonc" "$USER_HOME/.config/opencode/opencode.jsonc"
+ln -sf "$SCRIPT_DIR/.config/ghostty/config" "$USER_HOME/.config/ghostty/config"
 
 # Install pacman packages (requires sudo for system packages)
 echo "Installing pacman packages..."
@@ -73,51 +72,5 @@ read -p "Enter your git user name: " GIT_NAME
 read -p "Enter your git user email: " GIT_EMAIL
 git config --global user.name "$GIT_NAME" || true
 git config --global user.email "$GIT_EMAIL" || true
-
-# Install yay from AUR (required for AUR packages)
-# Uses yay-bin (precompiled) for speed, falls back to yay (source) if needed
-echo "Installing yay..."
-if ! command -v yay &> /dev/null; then
-    YAY_TMP=$(mktemp -d)
-    trap "rm -rf '$YAY_TMP'" EXIT
-    
-    # Try yay-bin first (precompiled - faster)
-    if git clone --depth 1 https://aur.archlinux.org/yay-bin.git "$YAY_TMP" 2>&1; then
-        if (cd "$YAY_TMP" && makepkg --noconfirm -si); then
-            echo "yay-bin installed successfully"
-        else
-            echo "Warning: Failed to install yay-bin, trying yay (from source)..." >&2
-            rm -rf "$YAY_TMP"
-            YAY_TMP=$(mktemp -d)
-            
-            # Fallback to yay (compiles from source)
-            if git clone --depth 1 https://aur.archlinux.org/yay.git "$YAY_TMP" 2>&1; then
-                if (cd "$YAY_TMP" && makepkg --noconfirm -si); then
-                    echo "yay installed successfully"
-                else
-                    echo "Warning: Failed to install yay. AUR packages cannot be installed." >&2
-                fi
-            else
-                echo "Warning: Failed to clone yay repository" >&2
-            fi
-        fi
-    else
-        echo "Warning: Failed to clone yay repository" >&2
-    fi
-else
-    echo "yay already installed"
-fi
-
-# Install AUR packages (only if yay is available)
-echo "Installing AUR packages..."
-if command -v yay &> /dev/null && [ -s "$SCRIPT_DIR/packages-aur.txt" ]; then
-    if [ "$SUDO_AVAILABLE" = true ]; then
-        sudo yay -S --needed - < "$SCRIPT_DIR/packages-aur.txt" || echo "Warning: Some AUR packages failed to install" >&2
-    else
-        echo "Skipping AUR packages (sudo not available)"
-    fi
-else
-    echo "Skipping AUR packages (yay not available or no packages to install)"
-fi
 
 echo "Done!"
