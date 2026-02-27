@@ -5,14 +5,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_USER="${SUDO_USER:-$(whoami)}"
 USER_HOME="$(eval echo ~"$TARGET_USER")"
 
-# Check if running as root
 if [ "$(id -u)" -eq 0 ]; then
     echo "Error: Running as root is not allowed."
     echo "Please run as a non-root user."
     exit 1
 fi
 
-# Check for sudo availability
 check_sudo() {
     sudo -n true 2>/dev/null
 }
@@ -44,33 +42,17 @@ fi
 
 echo "Installing dotfiles for user: $TARGET_USER"
 
-# Symlink configs first (before any package operations)
+source "$SCRIPT_DIR/scripts/symlinks.sh"
+source "$SCRIPT_DIR/scripts/packages.sh"
+source "$SCRIPT_DIR/scripts/git.sh"
+
 echo "Linking configs..."
-mkdir -p "$USER_HOME/.config/hypr"
-mkdir -p "$USER_HOME/.config/opencode"
-mkdir -p "$USER_HOME/.config/ghostty"
+create_symlinks "$SCRIPT_DIR" "$USER_HOME"
 
-ln -sf "$SCRIPT_DIR/.config/starship.toml" "$USER_HOME/.config/starship.toml"
-ln -sf "$SCRIPT_DIR/.config/.bashrc" "$USER_HOME/.config/.bashrc"
-ln -sf "$SCRIPT_DIR/.config/hypr/hyprland.conf" "$USER_HOME/.config/hypr/hyprland.conf"
-ln -sf "$SCRIPT_DIR/.config/opencode/opencode.jsonc" "$USER_HOME/.config/opencode/opencode.jsonc"
-ln -sf "$SCRIPT_DIR/.config/ghostty/config" "$USER_HOME/.config/ghostty/config"
+echo "Installing packages..."
+install_packages "$SCRIPT_DIR" "$SUDO_AVAILABLE"
 
-# Install pacman packages (requires sudo for system packages)
-echo "Installing pacman packages..."
-if [ "$SUDO_AVAILABLE" = true ]; then
-    if ! sudo pacman -S --needed - < "$SCRIPT_DIR/packages.txt"; then
-        echo "Warning: Some pacman packages failed to install" >&2
-    fi
-else
-    echo "Skipping pacman packages (sudo not available)"
-fi
-
-# Configure git
 echo "Configuring git..."
-read -p "Enter your git user name: " GIT_NAME
-read -p "Enter your git user email: " GIT_EMAIL
-git config --global user.name "$GIT_NAME" || true
-git config --global user.email "$GIT_EMAIL" || true
+configure_git
 
 echo "Done!"

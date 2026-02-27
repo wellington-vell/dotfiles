@@ -4,9 +4,24 @@ My dotfiles for Arch Linux + Hyprland
 
 ## Installation
 
+Clone into `~/.dotfiles` and run:
+
 ```bash
-curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar.gz | tar xz && cd dotfiles-main && ./install.sh
-./post-install.sh
+git clone https://github.com/wellington-vell/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && ./install.sh
+```
+
+Or via curl:
+
+```bash
+curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar.gz | tar xz && mv dotfiles-main ~/.dotfiles && cd ~/.dotfiles && ./install.sh
+```
+
+### Options
+
+Pass environment variables to skip interactive prompts:
+
+```bash
+GIT_NAME="Your Name" GIT_EMAIL="you@example.com" ./install.sh
 ```
 
 ## What's Installed
@@ -25,3 +40,10 @@ curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar
 ### AUR Packages (via yay)
 
 - **zen-browser-bin** - Web Browser
+
+## Structure
+
+- `install.sh` - Main entry point
+- `scripts/symlinks.sh` - Creates config symlinks
+- `scripts/packages.sh` - Installs pacman + AUR packages
+- `scripts/git.sh` - Configures git
