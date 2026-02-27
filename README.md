@@ -6,6 +6,7 @@ My dotfiles for Arch Linux + Hyprland
 
 ```bash
 curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar.gz | tar xz && cd dotfiles-main && ./install.sh
+./post-install.sh
 ```
 
 ## What's Installed
@@ -16,8 +17,11 @@ curl -sL https://github.com/wellington-vell/dotfiles/archive/refs/heads/main.tar
 - **less** - Pager
 - **ghostty** - Terminal
 - **opencode** - AI coding assistant
-- **man** -
-- **tldr** -
+- **man** - Manual pages
+- **tldr** - Simplified man pages
+- **starship** - Shell prompt
+- **ttf-jetbrains-mono-nerd** - Font
 
-- **yay** - AUR helper
+### AUR Packages (via yay)
+
 - **zen-browser-bin** - Web Browser
