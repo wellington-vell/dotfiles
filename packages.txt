@@ -12,3 +12,4 @@ starship
 eza
 bash-completion
 fzf
+quickshell
