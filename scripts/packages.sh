@@ -10,7 +10,7 @@ install_packages() {
     return 0
   fi
 
-  if ! sudo pacman -S --needed - < "$script_dir/packages.txt"; then
+  if ! sudo pacman -S --needed --noconfirm - <"$script_dir/packages.txt"; then
     echo "Warning: Some pacman packages failed to install" >&2
   fi
 
@@ -24,7 +24,7 @@ install_packages() {
   fi
 
   if [[ -s "$script_dir/packages-aur.txt" ]]; then
-    yay -S --noconfirm - < "$script_dir/packages-aur.txt"
+    yay -S --noconfirm - <"$script_dir/packages-aur.txt"
   fi
 
   echo "Packages installed."

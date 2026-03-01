@@ -9,6 +9,7 @@ create_symlinks() {
   mkdir -p "$user_home/.config/opencode"
   mkdir -p "$user_home/.config/ghostty"
   mkdir -p "$user_home/.config/bash"
+  mkdir -p "$user_home/.config/nvim"
   
   ln -sf "$script_dir/.config/bash/aliases" "$user_home/.config/bash/aliases"
   ln -sf "$script_dir/.config/bash/environment" "$user_home/.config/bash/environment"
@@ -21,6 +22,8 @@ create_symlinks() {
   ln -sf "$script_dir/.config/hypr/hyprland.conf" "$user_home/.config/hypr/hyprland.conf"
   ln -sf "$script_dir/.config/opencode/opencode.jsonc" "$user_home/.config/opencode/opencode.jsonc"
   ln -sf "$script_dir/.config/ghostty/config" "$user_home/.config/ghostty/config"
+  ln -sf "$script_dir/.config/nvim/init.lua" "$user_home/.config/nvim/init.lua"
+  ln -sf "$script_dir/.config/nvim/nvim-pack-lock.lua" "$user_home/.config/nvim/nvim-pack-lock.lua"
 
-  echo "Symlinks created."
+	echo "Symlinks created."
 }
